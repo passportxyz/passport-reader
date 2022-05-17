@@ -4,6 +4,7 @@ import {render, screen} from "@testing-library/react";
 import {ScoreResultView} from "./ScoreResultView"
 import { usePublicRecord } from "@self.id/framework";
 
+
 jest.mock('@self.id/framework', () => ({
   usePublicRecord: jest.fn()
 }))
@@ -21,7 +22,7 @@ describe('the score result view', () => {
       }
     }))
 
-    render(<ScoreResultView did={"abd123"}/>)
+    render(<ScoreResultView address={"abd123"}/>)
     expect(await screen.findByTestId("passport-score--good")).toBeInTheDocument();
   })
 
@@ -35,7 +36,7 @@ describe('the score result view', () => {
       }
     }))
 
-    render(<ScoreResultView did={""}/>)
+    render(<ScoreResultView address={""}/>)
     expect(await screen.findByTestId("passport-score--bad")).toBeInTheDocument();
   })
 })

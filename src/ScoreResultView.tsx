@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import type { ModelTypeAliases } from '@glazed/types'
 import { usePublicRecord } from '@self.id/framework'
 import { useEffect } from 'react'
+
+import { CeramicClient } from '@ceramicnetwork/http-client'
+import { Caip10Link } from '@ceramicnetwork/stream-caip10-link'
 
 type VerifiableCredential = {
   '@context': string[]
@@ -49,11 +52,37 @@ export type ModelTypes = ModelTypeAliases<
 >
 
 export type ScoreResultViewProps = {
-  did: string
+  address: string
 }
 
-export const ScoreResultView = ({ did }: ScoreResultViewProps): JSX.Element => {
+const ceramic = new CeramicClient("https://ceramic-clay.3boxlabs.com");
+
+function useDIDRecord(address: string) {
+  const [did, setDID] = useState<any>();
+
+  Caip10Link.fromAccount(
+    ceramic,
+    `${address}@eip155:1`,
+  ).then((link) => setDID(link.did));
+
+  return {
+    did
+  }
+}
+
+function usePublicDIDRecord(did: string) {
   const record = usePublicRecord<ModelTypes, 'Passport'>('Passport', did)
+
+  // The `did` property of the loaded link will contain the DID string value if set
+  return {
+    record: record
+  }
+}
+
+export const ScoreResultView = ({ address }: ScoreResultViewProps): JSX.Element => {
+  // convert the provided address to a ceramic DID link
+  const { did } = useDIDRecord(address);
+  const { record } = usePublicDIDRecord(did);
 
   useEffect(() => {
     console.log(record)

@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { ScoreResultView } from './ScoreResultView'
 
 const App = () => {
-  const [did, setDid] = useState<string>('')
-  const [didInput, setDidInput] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
+  const [addressInput, setAddressInput] = useState<string>('')
 
   const scorePassport = () => {
-    setDid(didInput)
+    setAddress(addressInput)
   }
 
   return (
@@ -27,11 +27,11 @@ const App = () => {
         </div>
         <div className="mb-10 mt-10">
           <input
-            type="did"
-            id="did"
-            name="did"
-            placeholder="Enter your dID"
-            onChange={(e) => setDidInput(e.target.value)}
+            type="address"
+            id="address"
+            name="address"
+            placeholder="Enter your address"
+            onChange={(e) => setAddressInput(e.target.value)}
             className="w-full rounded border border-gray-300 bg-white py-1 px-3 text-base leading-8 text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
           />
           <button
@@ -43,7 +43,7 @@ const App = () => {
         </div>
       </div>
       <div className="mt-8 flex w-full flex-col bg-white md:ml-auto md:mt-0 md:w-1/2 md:py-8 lg:w-1/3">
-        {did && <ScoreResultView did={did} />}
+        {address && <ScoreResultView address={address} />}
       </div>
     </div>
   )

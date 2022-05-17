@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ceramicnetwork/http-client": "^2.0.0",
+    "@ceramicnetwork/stream-caip10-link": "^2.0.0",
     "@self.id/framework": "^0.3.0",
     "buffer": "^6.0.3",
     "react": "^18.1.0",
@@ -52,5 +54,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "transform": {
+      "/node_modules/@ceramicnetwork": "babel-jest"
+    }
   }
 }
