@@ -34,7 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=./jest-setup-env.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -58,6 +58,9 @@
   "jest": {
     "transform": {
       "/node_modules/@ceramicnetwork": "babel-jest"
-    }
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!(@ceramicnetwork)/)"
+    ]
   }
 }

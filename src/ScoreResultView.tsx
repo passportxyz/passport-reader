@@ -57,17 +57,15 @@ export type ScoreResultViewProps = {
 
 const ceramic = new CeramicClient("https://ceramic-clay.3boxlabs.com");
 
-function useDIDRecord(address: string) {
-  const [did, setDID] = useState<any>();
+function useDIDRecord(address: string): string | null {
+  const [did, setDID] = useState<string | null>(null)
 
   Caip10Link.fromAccount(
     ceramic,
     `${address}@eip155:1`,
   ).then((link) => setDID(link.did));
 
-  return {
-    did
-  }
+  return did
 }
 
 function usePublicDIDRecord(did: string) {
@@ -81,8 +79,8 @@ function usePublicDIDRecord(did: string) {
 
 export const ScoreResultView = ({ address }: ScoreResultViewProps): JSX.Element => {
   // convert the provided address to a ceramic DID link
-  const { did } = useDIDRecord(address);
-  const { record } = usePublicDIDRecord(did);
+  const did = useDIDRecord(address) || '' // TODO - avoid usePublicRecord call if did is empty/null
+  const { record } = usePublicDIDRecord(did)
 
   useEffect(() => {
     console.log(record)
@@ -90,6 +88,11 @@ export const ScoreResultView = ({ address }: ScoreResultViewProps): JSX.Element 
 
   return (
     <div className="border-2 p-10 text-center">
+      {did.length == 0 && (
+        <div>
+          <span>Please create a dpopp passport</span>
+        </div>
+      )}
       {record?.isLoading ? (
         <div>
           <p>LOADING</p>
